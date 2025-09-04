@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   check-diff:
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -39,7 +39,7 @@ jobs:
             echo "No changes detected"
           fi
   dedupe:
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -57,7 +57,7 @@ jobs:
             exit 1
           fi
   git-safe-dependencies:
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -68,7 +68,7 @@ jobs:
       - name: Run @lavamoat/git-safe-dependencies
         run: yarn git-safe-dependencies
   scripts:
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     strategy:
       matrix:
         scripts:
@@ -98,7 +98,7 @@ jobs:
             echo "No changes detected"
           fi
   unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     strategy:
       matrix:
         shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -133,7 +133,7 @@ jobs:
             echo "No changes detected"
           fi
   merge-unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     needs: unit-tests
     steps:
       - uses: actions/checkout@v3
@@ -185,7 +185,7 @@ jobs:
     secrets: inherit
 
   js-bundle-size-check:
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -208,7 +208,7 @@ jobs:
           path: ios/main.jsbundle
 
   # ship-js-bundle-size-check:
-  #   runs-on: ubuntu-latest
+  #   runs-on: tenki-standard-autoscale
   #   needs: [js-bundle-size-check]
   #   if: ${{ github.ref == 'refs/heads/main' }}
   #   steps:
@@ -227,7 +227,7 @@ jobs:
   #         GITHUB_TOKEN: ${{ secrets.MOBILE_BUNDLESIZE_TOKEN }}
 
   # sonar-cloud:
-  #   runs-on: ubuntu-latest
+  #   runs-on: tenki-standard-autoscale
   #   needs: merge-unit-tests
   #   steps:
   #     - uses: actions/checkout@v3
@@ -270,7 +270,7 @@ jobs:
   #         done
   
   # sonar-cloud-quality-gate-status:
-  #   runs-on: ubuntu-latest
+  #   runs-on: tenki-standard-autoscale
   #   needs: sonar-cloud
   #   steps:
   #     - name: Checkout code
@@ -326,7 +326,7 @@ jobs:
   
   check-workflows:
     name: Check workflows
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     steps:
       - uses: actions/checkout@v4
       - name: Download actionlint
@@ -338,7 +338,7 @@ jobs:
         shell: bash
   all-jobs-pass-merge-pr:
     name: All jobs pass
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     if: ${{ github.event_name != 'merge_group' }}
     needs:
       [
@@ -359,7 +359,7 @@ jobs:
         run: echo "ALL_JOBS_PASSED=true" >> "$GITHUB_OUTPUT"
   all-jobs-pass:
     name: All jobs pass (merge_group)
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     if: ${{ github.event_name == 'merge_group' }}
     needs:
       [
@@ -379,7 +379,7 @@ jobs:
         run: echo "ALL_JOBS_PASSED=true" >> "$GITHUB_OUTPUT"
   check-all-jobs-pass-merge-pr:
     name: Check all jobs pass
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     needs: all-jobs-pass-merge-pr
     if: ${{ github.event_name != 'merge_group' && always() }}
     steps:
@@ -392,7 +392,7 @@ jobs:
           fi
   check-all-jobs-pass:
     name: Check all jobs pass (merge_group)
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     needs: all-jobs-pass
     if: ${{ github.event_name == 'merge_group' && always() }}
     steps:

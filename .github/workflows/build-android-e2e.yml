@@ -19,7 +19,7 @@ on:
 jobs:
   build-android-apks:
     name: Build Android E2E APKs
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-autoscale
     outputs:
       apk-uploaded: ${{ steps.upload-apk.outcome == 'success' }}
       aab-uploaded: ${{ steps.upload-aab.outcome == 'success' }}
